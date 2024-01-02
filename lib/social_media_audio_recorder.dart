@@ -204,7 +204,7 @@ class _RecordButtonState extends State<RecordButton> {
                   ? const LottieAnimation()
                   : Text(recordDuration,
                       style: TextStyle(
-                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
+                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,)),
               SizedBox(width: widget.size!),
               FlowShader(
                 duration: const Duration(seconds: 3),
@@ -216,7 +216,7 @@ class _RecordButtonState extends State<RecordButton> {
                     Text(
                       widget.sliderText??"Slide to cancel",
                       style:
-                          TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize),
+                          TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,),
                     )
                   ],
                 ),
@@ -265,13 +265,13 @@ class _RecordButtonState extends State<RecordButton> {
               children: [
                 Text(recordDuration,
                     style:
-                        TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
+                        TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSizedecoration: TextDecoration.none,)),
                 FlowShader(
                   duration: const Duration(seconds: 3),
                   flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
                   child: Text(widget.stopText??"Tap lock to stop",
                       style: TextStyle(
-                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
+                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,)),
                 ),
                 const Center(
                   child: FaIcon(
