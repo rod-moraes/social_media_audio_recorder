@@ -35,7 +35,8 @@ class RecordButton extends StatefulWidget {
   final Color? recordButtonColor;
   final Color? recordBgColor;
   final double? fontSize;
-
+  final String? sliderText;
+  final String? stopText;
   final Function(String value) onRecordEnd;
   final Function onRecordStart;
   final Function onCancelRecord;
@@ -47,6 +48,8 @@ class RecordButton extends StatefulWidget {
       this.lockerHeight = 200,
       this.size = 55,
       this.color = Colors.white,
+      this.sliderText,
+      this.stopText,
       this.radius = 10,this.fontSize=12,
       required this.onRecordEnd,
       required this.onRecordStart,
@@ -211,7 +214,7 @@ class _RecordButtonState extends State<RecordButton> {
                     Icon(Icons.keyboard_arrow_left,
                         color: widget.allTextColor ?? Colors.black),
                     Text(
-                      "Slide to cancel",
+                      widget.sliderText??"Slide to cancel",
                       style:
                           TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize),
                     )
@@ -266,7 +269,7 @@ class _RecordButtonState extends State<RecordButton> {
                 FlowShader(
                   duration: const Duration(seconds: 3),
                   flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
-                  child: Text("Tap lock to stop",
+                  child: Text(widget.stopText??"Tap lock to stop",
                       style: TextStyle(
                           color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
                 ),
