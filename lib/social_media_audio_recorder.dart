@@ -265,7 +265,7 @@ class _RecordButtonState extends State<RecordButton> {
               children: [
                 Text(recordDuration,
                     style:
-                        TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSizedecoration: TextDecoration.none,)),
+                        TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,)),
                 FlowShader(
                   duration: const Duration(seconds: 3),
                   flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
