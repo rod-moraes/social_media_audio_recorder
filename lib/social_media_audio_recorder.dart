@@ -34,6 +34,7 @@ class RecordButton extends StatefulWidget {
   final Color? arrowColor;
   final Color? recordButtonColor;
   final Color? recordBgColor;
+  final double? fontSize;
 
   final Function(String value) onRecordEnd;
   final Function onRecordStart;
@@ -46,7 +47,7 @@ class RecordButton extends StatefulWidget {
       this.lockerHeight = 200,
       this.size = 55,
       this.color = Colors.white,
-      this.radius = 10,
+      this.radius = 10,this.fontSize=12,
       required this.onRecordEnd,
       required this.onRecordStart,
       required this.onCancelRecord,
@@ -200,7 +201,7 @@ class _RecordButtonState extends State<RecordButton> {
                   ? const LottieAnimation()
                   : Text(recordDuration,
                       style: TextStyle(
-                          color: widget.allTextColor ?? Colors.black)),
+                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
               SizedBox(width: widget.size!),
               FlowShader(
                 duration: const Duration(seconds: 3),
@@ -212,7 +213,7 @@ class _RecordButtonState extends State<RecordButton> {
                     Text(
                       "Slide to cancel",
                       style:
-                          TextStyle(color: widget.allTextColor ?? Colors.black),
+                          TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize),
                     )
                   ],
                 ),
@@ -261,13 +262,13 @@ class _RecordButtonState extends State<RecordButton> {
               children: [
                 Text(recordDuration,
                     style:
-                        TextStyle(color: widget.allTextColor ?? Colors.black)),
+                        TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
                 FlowShader(
                   duration: const Duration(seconds: 3),
                   flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
                   child: Text("Tap lock to stop",
                       style: TextStyle(
-                          color: widget.allTextColor ?? Colors.black)),
+                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize)),
                 ),
                 const Center(
                   child: FaIcon(
