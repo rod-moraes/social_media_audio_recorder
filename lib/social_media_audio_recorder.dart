@@ -40,25 +40,26 @@ class RecordButton extends StatefulWidget {
   final Function(String value) onRecordEnd;
   final Function onRecordStart;
   final Function onCancelRecord;
-  const RecordButton(
-      {Key? key,
-      required this.controller,
-        this.releaseToSend=false,
-      this.timerWidth,
-      this.lockerHeight = 200,
-      this.size = 55,
-      this.color = Colors.white,
-      this.sliderText,
-      this.stopText,
-      this.radius = 10,this.fontSize=12,
-      required this.onRecordEnd,
-      required this.onRecordStart,
-      required this.onCancelRecord,
-      this.allTextColor,
-      this.arrowColor,
-      this.recordButtonColor,
-      this.recordBgColor, })
-      : super(key: key);
+  const RecordButton({
+    Key? key,
+    required this.controller,
+    this.releaseToSend = false,
+    this.timerWidth,
+    this.lockerHeight = 200,
+    this.size = 55,
+    this.color = Colors.white,
+    this.sliderText,
+    this.stopText,
+    this.radius = 10,
+    this.fontSize = 12,
+    required this.onRecordEnd,
+    required this.onRecordStart,
+    required this.onCancelRecord,
+    this.allTextColor,
+    this.arrowColor,
+    this.recordButtonColor,
+    this.recordBgColor,
+  }) : super(key: key);
 
   @override
   State<RecordButton> createState() => _RecordButtonState();
@@ -204,7 +205,10 @@ class _RecordButtonState extends State<RecordButton> {
                   ? const LottieAnimation()
                   : Text(recordDuration,
                       style: TextStyle(
-                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,)),
+                        color: widget.allTextColor ?? Colors.black,
+                        fontSize: widget.fontSize,
+                        decoration: TextDecoration.none,
+                      )),
               SizedBox(width: widget.size!),
               FlowShader(
                 duration: const Duration(seconds: 3),
@@ -214,9 +218,12 @@ class _RecordButtonState extends State<RecordButton> {
                     Icon(Icons.keyboard_arrow_left,
                         color: widget.allTextColor ?? Colors.black),
                     Text(
-                      widget.sliderText??"Slide to cancel",
-                      style:
-                          TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,),
+                      widget.sliderText ?? "Slide to cancel",
+                      style: TextStyle(
+                        color: widget.allTextColor ?? Colors.black,
+                        fontSize: widget.fontSize,
+                        decoration: TextDecoration.none,
+                      ),
                     )
                   ],
                 ),
@@ -242,46 +249,78 @@ class _RecordButtonState extends State<RecordButton> {
         ),
         child: Padding(
           padding: const EdgeInsets.only(left: 15, right: 25),
-          child: GestureDetector(
-            behavior: HitTestBehavior.opaque,
-            onTap: () async {
-              Vibrate.feedback(FeedbackType.success);
-              timer?.cancel();
-              timer = null;
-              startTime = null;
-              recordDuration = "00:00";
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            mainAxisSize: MainAxisSize.max,
+            children: [
+              Text(recordDuration,
+                  style: TextStyle(
+                    color: widget.allTextColor ?? Colors.black,
+                    fontSize: widget.fontSize,
+                    decoration: TextDecoration.none,
+                  )),
+              FlowShader(
+                duration: const Duration(seconds: 3),
+                flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
+                child: Text(widget.stopText ?? "Tap to stop or ",
+                    style: TextStyle(
+                      color: widget.allTextColor ?? Colors.black,
+                      fontSize: widget.fontSize,
+                      decoration: TextDecoration.none,
+                    )),
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () async {
+                  Vibrate.feedback(FeedbackType.success);
+                  timer?.cancel();
+                  timer = null;
+                  startTime = null;
+                  recordDuration = "00:00";
 
-              var filePath = await Record().stop(); //Record file
+                  var filePath = await Record().stop(); //Record file
 
-              setState(() {
-                isLocked = false;
-
-                widget.onRecordEnd(filePath!);
-              });
-            },
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              mainAxisSize: MainAxisSize.max,
-              children: [
-                Text(recordDuration,
-                    style:
-                        TextStyle(color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,)),
-                FlowShader(
-                  duration: const Duration(seconds: 3),
-                  flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
-                  child: Text(widget.stopText??"Tap lock to stop",
-                      style: TextStyle(
-                          color: widget.allTextColor ?? Colors.black,fontSize:widget.fontSize,decoration: TextDecoration.none,)),
-                ),
-                const Center(
+                  setState(() {
+                    isLocked = false;
+                  });
+                },
+                child: const Center(
                   child: FaIcon(
-                    FontAwesomeIcons.lock,
+                    FontAwesomeIcons.close,
+                    size: 18,
+                    color: Colors.red,
+                  ),
+                ),
+              ),
+              const SizedBox(
+                width: 12,
+              ),
+              GestureDetector(
+                behavior: HitTestBehavior.opaque,
+                onTap: () async {
+                  Vibrate.feedback(FeedbackType.success);
+                  timer?.cancel();
+                  timer = null;
+                  startTime = null;
+                  recordDuration = "00:00";
+
+                  var filePath = await Record().stop(); //Record file
+
+                  setState(() {
+                    isLocked = false;
+
+                    widget.onRecordEnd(filePath!);
+                  });
+                },
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.check,
                     size: 18,
                     color: Colors.green,
                   ),
                 ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
@@ -354,12 +393,11 @@ class _RecordButtonState extends State<RecordButton> {
           startTime = null;
           recordDuration = "00:00";
           var filePath = await record!.stop();
-         // print("fuad");
-          if(widget.releaseToSend!) {
+          // print("fuad");
+          if (widget.releaseToSend!) {
             widget.onRecordEnd(filePath!);
-          }
-          else{
-             widget.onCancelRecord();
+          } else {
+            widget.onCancelRecord();
           }
         }
       },
