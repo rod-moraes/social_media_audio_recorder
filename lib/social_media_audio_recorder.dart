@@ -1,6 +1,7 @@
 library social_media_audio_recorder;
 
 import 'dart:async';
+import 'dart:developer';
 import 'dart:io';
 
 import 'package:flutter/material.dart';
@@ -248,30 +249,15 @@ class _RecordButtonState extends State<RecordButton> {
           color: widget.color,
         ),
         child: Padding(
-          padding: const EdgeInsets.only(left: 15, right: 25),
+          padding: const EdgeInsets.only(left: 20, right: 20),
           child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              Text(recordDuration,
-                  style: TextStyle(
-                    color: widget.allTextColor ?? Colors.black,
-                    fontSize: widget.fontSize,
-                    decoration: TextDecoration.none,
-                  )),
-              FlowShader(
-                duration: const Duration(seconds: 3),
-                flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
-                child: Text(widget.stopText ?? "Tap to stop or ",
-                    style: TextStyle(
-                      color: widget.allTextColor ?? Colors.black,
-                      fontSize: widget.fontSize,
-                      decoration: TextDecoration.none,
-                    )),
-              ),
               GestureDetector(
-                //   behavior: HitTestBehavior.opaque,
+                behavior: HitTestBehavior.opaque,
                 onTap: () async {
+                  log("Cancelled recording");
                   Vibrate.feedback(FeedbackType.heavy);
 
                   timer?.cancel();
@@ -294,16 +280,27 @@ class _RecordButtonState extends State<RecordButton> {
                     showLottie = false;
                   });
                 },
-                child: const Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.close,
-                    size: 18,
-                    color: Colors.red,
-                  ),
+                child: const FaIcon(
+                  FontAwesomeIcons.close,
+                  size: 18,
+                  color: Colors.red,
                 ),
               ),
-              const SizedBox(
-                width: 6,
+              Text(recordDuration,
+                  style: TextStyle(
+                    color: widget.allTextColor ?? Colors.black,
+                    fontSize: widget.fontSize,
+                    decoration: TextDecoration.none,
+                  )),
+              FlowShader(
+                duration: const Duration(seconds: 3),
+                flowColors: [widget.arrowColor ?? Colors.white, Colors.grey],
+                child: Text(widget.stopText ?? "Tap to stop or ",
+                    style: TextStyle(
+                      color: widget.allTextColor ?? Colors.black,
+                      fontSize: widget.fontSize,
+                      decoration: TextDecoration.none,
+                    )),
               ),
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
