@@ -270,7 +270,7 @@ class _RecordButtonState extends State<RecordButton> {
                     )),
               ),
               GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                //   behavior: HitTestBehavior.opaque,
                 onTap: () async {
                   Vibrate.feedback(FeedbackType.heavy);
 
