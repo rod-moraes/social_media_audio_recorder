@@ -9,6 +9,7 @@ import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:path_provider/path_provider.dart';
 import 'package:record/record.dart';
+
 import 'package:social_media_audio_recorder/widget/Flow.dart';
 import 'package:social_media_audio_recorder/widget/lottie.dart';
 
@@ -40,26 +41,30 @@ class RecordButton extends StatefulWidget {
   final String? stopText;
   final Function(String value) onRecordEnd;
   final Function onRecordStart;
+  final String extension;
+  final AudioEncoder audioEncoder;
   final Function onCancelRecord;
   const RecordButton({
     Key? key,
     required this.controller,
-    this.releaseToSend = false,
     this.timerWidth,
     this.lockerHeight = 200,
     this.size = 55,
-    this.color = Colors.white,
-    this.sliderText,
-    this.stopText,
     this.radius = 10,
-    this.fontSize = 12,
-    required this.onRecordEnd,
-    required this.onRecordStart,
-    required this.onCancelRecord,
+    this.releaseToSend = false,
+    this.color = Colors.white,
     this.allTextColor,
     this.arrowColor,
     this.recordButtonColor,
     this.recordBgColor,
+    this.fontSize = 12,
+    this.sliderText,
+    this.stopText,
+    required this.onRecordEnd,
+    required this.onRecordStart,
+    this.extension = "acc",
+    this.audioEncoder = AudioEncoder.aacLc,
+    required this.onCancelRecord,
   }) : super(key: key);
 
   @override
@@ -282,19 +287,11 @@ class _RecordButtonState extends State<RecordButton> {
                   recordDuration = "00:00";
                   setState(() {
                     isLocked = false;
-                    showLottie = true;
                   });
+
+                  var filePath = await record!.stop();
+                  await File(filePath!).delete();
                   widget.onCancelRecord();
-
-                  Timer(const Duration(milliseconds: 1440), () async {
-                    widget.controller.reverse();
-                    debugPrint("Cancelled recording");
-                    var filePath = await record!.stop();
-
-                    File(filePath!).delete();
-
-                    showLottie = false;
-                  });
                 },
                 child: const FaIcon(
                   FontAwesomeIcons.xmark,
@@ -311,7 +308,7 @@ class _RecordButtonState extends State<RecordButton> {
                   startTime = null;
                   recordDuration = "00:00";
 
-                  var filePath = await Record().stop(); //Record file
+                  var filePath = await record?.stop(); //Record file
 
                   setState(() {
                     isLocked = false;
