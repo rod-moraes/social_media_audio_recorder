@@ -258,30 +258,43 @@ class _RecordButtonState extends State<RecordButton> {
                 behavior: HitTestBehavior.opaque,
                 onTap: () async {
                   log("Cancelled recording");
-                  Vibrate.feedback(FeedbackType.heavy);
-
+                  Vibrate.feedback(FeedbackType.success);
                   timer?.cancel();
                   timer = null;
                   startTime = null;
                   recordDuration = "00:00";
+
+                  var filePath = await Record().stop(); //Record file
+
                   setState(() {
                     isLocked = false;
-                    showLottie = true;
+
+                    widget.onRecordEnd("");
                   });
-                  widget.onCancelRecord();
+                  // Vibrate.feedback(FeedbackType.heavy);
 
-                  Timer(const Duration(milliseconds: 1440), () async {
-                    widget.controller.reverse();
-                    debugPrint("Cancelled recording");
-                    var filePath = await record!.stop();
+                  // timer?.cancel();
+                  // timer = null;
+                  // startTime = null;
+                  // recordDuration = "00:00";
+                  // setState(() {
+                  //   isLocked = false;
+                  //   showLottie = true;
+                  // });
+                  // widget.onCancelRecord();
 
-                    File(filePath!).delete();
+                  // Timer(const Duration(milliseconds: 1440), () async {
+                  //   widget.controller.reverse();
+                  //   debugPrint("Cancelled recording");
+                  //   var filePath = await record!.stop();
 
-                    showLottie = false;
-                  });
+                  //   File(filePath!).delete();
+
+                  //   showLottie = false;
+                  // });
                 },
                 child: const FaIcon(
-                  FontAwesomeIcons.close,
+                  FontAwesomeIcons.xmark,
                   size: 18,
                   color: Colors.red,
                 ),
