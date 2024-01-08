@@ -254,31 +254,6 @@ class _RecordButtonState extends State<RecordButton> {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             mainAxisSize: MainAxisSize.max,
             children: [
-              GestureDetector(
-                //behavior: HitTestBehavior.opaque,
-                onTap: () async {
-                  Vibrate.feedback(FeedbackType.success);
-                  timer?.cancel();
-                  timer = null;
-                  startTime = null;
-                  recordDuration = "00:00";
-
-                  var filePath = await Record().stop(); //Record file
-
-                  setState(() {
-                    isLocked = false;
-
-                    widget.onRecordEnd(filePath!);
-                  });
-                },
-                child: const Center(
-                  child: FaIcon(
-                    FontAwesomeIcons.check,
-                    size: 18,
-                    color: Colors.green,
-                  ),
-                ),
-              ),
               Text(recordDuration,
                   style: TextStyle(
                     color: widget.allTextColor ?? Colors.black,
@@ -295,8 +270,40 @@ class _RecordButtonState extends State<RecordButton> {
                       decoration: TextDecoration.none,
                     )),
               ),
+              InkWell(
+                // behavior: HitTestBehavior.opaque,
+                onTap: () async {
+                  log("Cancelled recording");
+                  Vibrate.feedback(FeedbackType.heavy);
+
+                  timer?.cancel();
+                  timer = null;
+                  startTime = null;
+                  recordDuration = "00:00";
+                  setState(() {
+                    isLocked = false;
+                    showLottie = true;
+                  });
+                  widget.onCancelRecord();
+
+                  Timer(const Duration(milliseconds: 1440), () async {
+                    widget.controller.reverse();
+                    debugPrint("Cancelled recording");
+                    var filePath = await record!.stop();
+
+                    File(filePath!).delete();
+
+                    showLottie = false;
+                  });
+                },
+                child: const FaIcon(
+                  FontAwesomeIcons.xmark,
+                  size: 18,
+                  color: Colors.red,
+                ),
+              ),
               GestureDetector(
-                //sbehavior: HitTestBehavior.opaque,
+                behavior: HitTestBehavior.opaque,
                 onTap: () async {
                   Vibrate.feedback(FeedbackType.success);
                   timer?.cancel();
