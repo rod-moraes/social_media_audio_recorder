@@ -257,7 +257,6 @@ class _RecordButtonState extends State<RecordButton> {
               GestureDetector(
                 behavior: HitTestBehavior.opaque,
                 onTap: () async {
-                  log("Cancelled recording");
                   Vibrate.feedback(FeedbackType.success);
                   timer?.cancel();
                   timer = null;
@@ -269,34 +268,15 @@ class _RecordButtonState extends State<RecordButton> {
                   setState(() {
                     isLocked = false;
 
-                    widget.onRecordEnd("");
+                    widget.onRecordEnd(filePath!);
                   });
-                  // Vibrate.feedback(FeedbackType.heavy);
-
-                  // timer?.cancel();
-                  // timer = null;
-                  // startTime = null;
-                  // recordDuration = "00:00";
-                  // setState(() {
-                  //   isLocked = false;
-                  //   showLottie = true;
-                  // });
-                  // widget.onCancelRecord();
-
-                  // Timer(const Duration(milliseconds: 1440), () async {
-                  //   widget.controller.reverse();
-                  //   debugPrint("Cancelled recording");
-                  //   var filePath = await record!.stop();
-
-                  //   File(filePath!).delete();
-
-                  //   showLottie = false;
-                  // });
                 },
-                child: const FaIcon(
-                  FontAwesomeIcons.xmark,
-                  size: 18,
-                  color: Colors.red,
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.check,
+                    size: 18,
+                    color: Colors.green,
+                  ),
                 ),
               ),
               Text(recordDuration,
