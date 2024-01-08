@@ -255,7 +255,7 @@ class _RecordButtonState extends State<RecordButton> {
             mainAxisSize: MainAxisSize.max,
             children: [
               GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                //behavior: HitTestBehavior.opaque,
                 onTap: () async {
                   Vibrate.feedback(FeedbackType.success);
                   timer?.cancel();
@@ -296,7 +296,7 @@ class _RecordButtonState extends State<RecordButton> {
                     )),
               ),
               GestureDetector(
-                behavior: HitTestBehavior.opaque,
+                //sbehavior: HitTestBehavior.opaque,
                 onTap: () async {
                   Vibrate.feedback(FeedbackType.success);
                   timer?.cancel();
