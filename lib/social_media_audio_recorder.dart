@@ -275,7 +275,7 @@ class _RecordButtonState extends State<RecordButton> {
                       decoration: TextDecoration.none,
                     )),
               ),
-              InkWell(
+              GestureDetector(
                 // behavior: HitTestBehavior.opaque,
                 onTap: () async {
                   log("Cancelled recording");
@@ -293,10 +293,12 @@ class _RecordButtonState extends State<RecordButton> {
                   await File(filePath!).delete();
                   widget.onCancelRecord();
                 },
-                child: const FaIcon(
-                  FontAwesomeIcons.xmark,
-                  size: 18,
-                  color: Colors.red,
+                child: const Center(
+                  child: FaIcon(
+                    FontAwesomeIcons.xmark,
+                    size: 18,
+                    color: Colors.red,
+                  ),
                 ),
               ),
               GestureDetector(
