@@ -81,7 +81,7 @@ class _RecordButtonState extends State<RecordButton> {
   DateTime? startTime;
   Timer? timer;
   String recordDuration = "00:00";
-  Record? record;
+  AudioRecorder? record;
 
   bool isLocked = false;
   bool showLottie = false;
@@ -414,14 +414,16 @@ class _RecordButtonState extends State<RecordButton> {
       onLongPress: () async {
         debugPrint("onLongPress");
         Vibrate.feedback(FeedbackType.success);
-        if (await Record().hasPermission()) {
-          record = Record();
+        if (await AudioRecorder().hasPermission()) {
+          record = AudioRecorder();
           await record!.start(
+            RecordConfig(
+              encoder: widget.audioEncoder,
+              bitRate: 128000,
+              sampleRate: 44100,
+            ),
             path:
                 "${SocialMediaFilePath.documentPath}audio_${DateTime.now().millisecondsSinceEpoch}.${widget.extension}",
-            encoder: widget.audioEncoder,
-            bitRate: 128000,
-            samplingRate: 44100,
           );
           startTime = DateTime.now();
           timer = Timer.periodic(const Duration(seconds: 1), (_) {
