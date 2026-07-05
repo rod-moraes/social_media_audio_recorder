@@ -17,7 +17,7 @@ dependencies:
   record: ^6.0.0
   flutter_vibrate:
     git:
-      url: https://github.com/rodydavis/flutter_vibrate.git
+      url: https://github.com/dev-mahmoud-elshenawy/flutter_vibrate-xcode16.3-fix.git
   lottie: ^3.3.1
   font_awesome_flutter: ^10.8.0
 
